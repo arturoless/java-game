@@ -5,8 +5,10 @@
  */
 package visualgame;
 
+import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,14 +24,13 @@ public class FXMLDocumentController implements Initializable {
     
     private Puntaje puntos = new Puntaje();
     
-    @FXML
-    private Label score;
-    @FXML
-    private TextField oracionAOrdenar;
+    @FXML private Label score;
+    @FXML private TextField oracionAOrdenar;
+    @FXML private JFXTextField input;
+    @FXML private Label label;
     
     @FXML
     private void skip(ActionEvent event) {
-        System.out.println("You clicked me!");
         oracionAOrdenar.setText("Hello World!");
         puntos.decrementarPuntaje();
         score.setText(String.valueOf(puntos.getPuntaje()));
@@ -38,6 +39,9 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         score.setText(String.valueOf(puntos.getPuntaje()));
+        input.textProperty().addListener((ObservableValue<? extends String> observableValue, String s, String s2) -> {
+            label.setText(observableValue.getValue());
+        });
     }    
     
 }
