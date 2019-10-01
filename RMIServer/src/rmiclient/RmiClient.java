@@ -10,14 +10,20 @@ package rmiclient;
  * @author Arturo Lessieur
  */
 import java.rmi.Naming;
-import rmiserver.RmiServerIntf;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+//import rmiserver.RmiServerIntf;
 
 
 
 
 public class RmiClient { 
     public static void main(String args[]) throws Exception {
-        RmiServerIntf obj = (RmiServerIntf)Naming.lookup("//localhost/RmiServer");
+        LocateRegistry.getRegistry(1099); 
+        RmiServerIntf obj = (RmiServerIntf)Naming.lookup("//192.168.0.27/RmiServer");
+        
         obj.incrementarPuntaje();
         obj.incrementarPuntaje();
         obj.incrementarPuntaje();

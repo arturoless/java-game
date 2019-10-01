@@ -11,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import modelo.Puntaje;
 
 /**
  *
@@ -18,18 +20,24 @@ import javafx.scene.control.Label;
  */
 public class FXMLDocumentController implements Initializable {
     
-    @FXML
-    private Label label;
+    private Puntaje puntos = new Puntaje();
     
     @FXML
-    private void handleButtonAction(ActionEvent event) {
+    private Label score;
+    @FXML
+    private TextField oracionAOrdenar;
+    
+    @FXML
+    private void skip(ActionEvent event) {
         System.out.println("You clicked me!");
-        label.setText("Hello World!");
+        oracionAOrdenar.setText("Hello World!");
+        puntos.decrementarPuntaje();
+        score.setText(String.valueOf(puntos.getPuntaje()));
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        score.setText(String.valueOf(puntos.getPuntaje()));
     }    
     
 }

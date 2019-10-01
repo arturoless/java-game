@@ -13,10 +13,10 @@
     <children>
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
       <JFXTextField id="respuesta" focusColor="#b71c1c" labelFloat="true" layoutX="75.0" layoutY="235.0" prefHeight="25.0" prefWidth="451.0" promptText="Answer:" />
-      <JFXButton layoutX="457.0" layoutY="295.0" prefHeight="25.0" prefWidth="69.0" text="Skip" />
-      <Label id="puntos" layoutX="501.0" layoutY="36.0" text="0" textFill="#b71c1c" />
+      <JFXButton layoutX="457.0" layoutY="295.0" onAction="#skip" prefHeight="25.0" prefWidth="69.0" text="Skip" />
+      <Label id="puntos" fx:id="score" layoutX="501.0" layoutY="36.0" text="0" textFill="#b71c1c" />
       <Label layoutX="448.0" layoutY="36.0" text="Score" />
-      <TextField alignment="CENTER" editable="false" layoutX="75.0" layoutY="120.0" prefHeight="46.0" prefWidth="451.0" />
+      <TextField id="oracionAOrdenar" fx:id="oracionAOrdenar" alignment="CENTER" editable="false" layoutX="75.0" layoutY="120.0" prefHeight="46.0" prefWidth="451.0" />
       <Text fill="#b71c1c" layoutX="75.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SORTING WORDS">
          <font>
             <Font name="System Bold" size="20.0" />
