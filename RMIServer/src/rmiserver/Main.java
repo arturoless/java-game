@@ -9,31 +9,19 @@ package rmiserver;
  *
  * @author Arturo Lessieur
  */
-import java.rmi.Naming;
+import api.Score;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.registry.*; 
 
 public class Main {
-      
+    public static void main(String[] args) throws RemoteException {
+        Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
 
-    public static void main(String args[]) throws Exception {
-        System.out.println("RMI server started");
+        Server server = new Server();
+        Score score = (Score) UnicastRemoteObject.exportObject(server, 0);
 
-        try { //special exception handler for registry creation
-            LocateRegistry.createRegistry(1099); 
-            System.out.println("java RMI registry created.");
-        } catch (RemoteException e) {
-            //do nothing, error means registry already exists
-            System.out.println("java RMI registry already exists.");
-        }
-           
-        //Instantiate RmiServer
-
-        RmiServerIntf obj = new RmiServer();
-
-        // Bind this object instance to the name "RmiServer"
-        Naming.rebind("//192.168.0.27/RmiServer", obj);
-        System.out.println("PeerServer bound in registry");
+        registry.rebind("verbs", score);
+        System.out.println("Server is running in PORT: " + Registry.REGISTRY_PORT);
     }
 }
