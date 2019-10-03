@@ -6,6 +6,7 @@
 package api;
 
 import java.rmi.*;
+import rmiserver.Diccionario;
 
 /**
  *
@@ -17,4 +18,6 @@ public interface Score extends Remote {
     public void decrementarPuntaje() throws RemoteException;
 
     public int obtenerPuntaje() throws RemoteException;
+    
+    public Diccionario obtenerDiccionario() throws RemoteException;
 }

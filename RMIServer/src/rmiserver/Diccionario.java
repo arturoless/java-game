@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package visualgame;
+package rmiserver;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -17,7 +18,8 @@ import java.util.Random;
  *
  * @author Arturo Lessieur
  */
-public class Diccionario {
+public class Diccionario implements Serializable{
+    private static final long serialVersionUID = 1190476516911661470L;
     private ArrayList<Verb> verbs = new ArrayList<Verb>();
     private Random random = new Random();
     

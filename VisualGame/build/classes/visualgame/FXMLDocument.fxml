@@ -33,5 +33,6 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Text>
+      <ProgressBar fx:id="time" layoutX="77.0" layoutY="336.0" prefHeight="18.0" prefWidth="451.0" progress="1.0" style="-fx-accent: #b71c1c; -fx-box-border: #b71c1c;" />
     </children>
 </AnchorPane>

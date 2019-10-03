@@ -16,13 +16,24 @@ import javax.management.remote.rmi.RMIServer;
  * @author Arturo Lessieur
  */
 public class Server implements Score {
+    private static final long serialVersionUID = 1L;
     Semaphore mutex = new Semaphore(1);
     Puntaje puntaje = new Puntaje();
     Incrementador incrementador = new Incrementador(mutex, puntaje);
     Decrementador decrementador = new Decrementador(mutex, puntaje);
+    
+    Diccionario diccionario;
 
     public Server() throws RemoteException {
         super();
+        diccionario = new Diccionario();
+    }
+    
+    
+    
+    @Override
+    public Diccionario obtenerDiccionario(){
+        return diccionario;
     }
 
     @Override

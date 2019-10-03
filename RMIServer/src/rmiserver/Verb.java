@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package visualgame;
+package rmiserver;
+
+import java.io.Serializable;
 
 /**
  *
  * @author Arturo Lessieur
  */
-public class Verb {
-    
+public class Verb implements Serializable{
+    private static final long serialVersionUID = 1290476516911661470L;
     private String name;
     private String meaning;
 
