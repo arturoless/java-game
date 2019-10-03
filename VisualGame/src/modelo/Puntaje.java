@@ -20,6 +20,10 @@ public class Puntaje {
         puntaje--;
     }
     
+    public void resetearPuntaje(){
+        puntaje=5;
+    }
+    
     public int getPuntaje(){
         return puntaje;
     }
