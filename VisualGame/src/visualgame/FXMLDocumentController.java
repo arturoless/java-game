@@ -120,6 +120,11 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 time.setStyle("-fx-accent: red;");
             }
+            try {
+                obtenerHighScore(puntos.getPuntaje());
+            } catch (RemoteException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
     
