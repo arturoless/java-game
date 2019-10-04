@@ -8,14 +8,9 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="VisualGame.jar" size="9018" download="eager" />
     <jar href="lib\DiccionarioIntf.jar" size="5174" download="eager" />
     <jar href="lib\RMIServer.jar" size="19109" download="eager" />
     <jar href="lib\jfoenix-8.0.8.jar" size="2708772" download="eager" />
-    <jar href="lib\mysql-connector-java-8.0.11.jar" size="2036609" download="eager" />
-  </resources>
-  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="VisualGame" >
-    <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>
   <jfx:javafx-desc  width="800" height="600" main-class="visualgame.VisualGame"  name="VisualGame" />
   <update check="always"/>
