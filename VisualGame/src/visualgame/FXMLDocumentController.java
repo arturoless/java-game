@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,17 +49,19 @@ public class FXMLDocumentController implements Initializable {
     @FXML private JFXTextField input;
     @FXML private Label label;
     @FXML private ProgressBar time ;
+    @FXML private Text lastVerb;
     
     private void gameOver() {
         Alert alert = new Alert(AlertType.CONFIRMATION); 
             alert.setTitle("Game Over");
-            alert.setHeaderText("You spent all your points in skips.");
+            alert.setHeaderText("Time's out.");
             alert.setContentText("Do you want to try again?");
             Optional<ButtonType> result = alert.showAndWait();
             if(!result.isPresent()) {
                // alert is exited, no button has been pressed.
             }
             else if(result.get() == ButtonType.OK) {
+                lastVerb.setText("");
                 puntos.resetearPuntaje();
                 modo = random.nextInt(2);
                 if (modo == 0) {
@@ -91,9 +94,8 @@ public class FXMLDocumentController implements Initializable {
         time.progressProperty().bind(seconds.divide(60.0));
         timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(seconds,0)),
-                new KeyFrame(Duration.minutes(1), e ->{}, new KeyValue(seconds, 60))     
+                new KeyFrame(Duration.minutes(1), e ->{ }, new KeyValue(seconds, 60))     
         );
-        System.out.println( timeline.getCuePoints());
         timeline.setOnFinished((ActionEvent e)-> {
             try {
                 Platform.runLater(()->{
@@ -102,10 +104,21 @@ public class FXMLDocumentController implements Initializable {
             } catch (Exception ex) {
                 System.out.println(ex);
             }
-            
         });
         timeline.playFromStart();
-        
+        time.progressProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            double progress = newValue == null ? 0 : newValue.doubleValue();
+            System.out.println(observable.getValue());
+            if (progress < 0.4) {
+                time.setStyle("-fx-accent: green;");
+            } else if (progress < 0.6) {
+                time.setStyle("-fx-accent: yellow;");
+            } else if (progress < 0.85) {
+                time.setStyle("-fx-accent: orange;");
+            } else {
+                time.setStyle("-fx-accent: red;");
+            }
+        });
     }
     
     private void obtenerDiccionario() throws RemoteException, NotBoundException {
@@ -119,12 +132,14 @@ public class FXMLDocumentController implements Initializable {
     private void skip(ActionEvent event) {
         puntos.decrementarPuntaje();
         modo = random.nextInt(2);
-        if (modo==0) {
+        if (modo == 0) {
+            lastVerb.setText("Last meaning: " + verbo.getMeaning());
             verbo = diccionario.obtenerVerbo();
             verbMeaning.setText(verbo.getMeaning());
             verbName.setText("?");
         }
         else{
+            lastVerb.setText("Last verb: " + verbo.getName());
             verbo = diccionario.obtenerVerbo();
             verbName.setText(verbo.getName());
             verbMeaning.setText("?");
@@ -133,7 +148,7 @@ public class FXMLDocumentController implements Initializable {
         Platform.runLater(() -> {
             input.clear();
         });
-        if (puntos.getPuntaje()==0) {
+        if (puntos.getPuntaje() == 0) {
             timeline.pause();
             Alert alert = new Alert(AlertType.CONFIRMATION); 
             alert.setTitle("Game Over");
@@ -144,6 +159,7 @@ public class FXMLDocumentController implements Initializable {
                // alert is exited, no button has been pressed.
             }
             else if(result.get() == ButtonType.OK) {
+                lastVerb.setText("");
                 puntos.resetearPuntaje();
                 temporizador();
                 modo = random.nextInt(2);
@@ -170,6 +186,7 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        lastVerb.setText("");
         temporizador();
         try {
             obtenerDiccionario();

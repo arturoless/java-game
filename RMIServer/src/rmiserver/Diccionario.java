@@ -79,6 +79,10 @@ public class Diccionario implements Serializable{
         return obtenerVerbo();
     }
     
+    public void showAnswer() {
+        
+    }
+    
     
     
 }
