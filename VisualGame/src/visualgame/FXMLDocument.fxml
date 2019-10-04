@@ -13,8 +13,8 @@
     <children>
       <JFXTextField id="respuesta" fx:id="input" focusColor="#b71c1c" labelFloat="true" layoutX="75.0" layoutY="235.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="451.0" promptText="Answer:" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="74.0" />
       <JFXButton layoutX="456.0" layoutY="278.0" onAction="#skip" prefHeight="25.0" prefWidth="69.0" text="Skip" />
-      <Label id="puntos" fx:id="score" layoutX="501.0" layoutY="36.0" text="0" textFill="#b71c1c" />
-      <Label layoutX="448.0" layoutY="36.0" text="Score" />
+      <Label id="puntos" fx:id="score" layoutX="517.0" layoutY="55.0" text="0" textFill="#b71c1c" />
+      <Label layoutX="456.0" layoutY="55.0" text="My Score" />
       <Text fill="#b71c1c" layoutX="75.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GUESS THE VERB!">
          <font>
             <Font name="System Bold" size="20.0" />
@@ -34,5 +34,7 @@
       </Text>
       <ProgressBar fx:id="time" layoutX="77.0" layoutY="336.0" prefHeight="18.0" prefWidth="451.0" progress="1.0" style="-fx-accent: #b71c1c; -fx-box-border: #b71c1c;" />
       <Text fx:id="lastVerb" layoutX="77.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="370.13671875" />
+      <Label layoutX="447.0" layoutY="36.0" text="High Score" />
+      <Label id="puntos" fx:id="highScore" layoutX="517.0" layoutY="36.0" text="0" textFill="#b71c1c" />
     </children>
 </AnchorPane>

@@ -36,14 +36,15 @@ import modelo.Puntaje;
 public class FXMLDocumentController implements Initializable {
     
     private final Puntaje puntos = new Puntaje();
-    
+    private Score serv;
     private Diccionario diccionario;
-    
+    private int highScorePoints;
     private Verb verbo = new Verb();
     private final Random random = new Random();
     private int modo;
     private Timeline timeline;
     @FXML private Label score;
+    @FXML private Label highScore;
     @FXML private Text verbMeaning;
     @FXML private Text verbName;
     @FXML private JFXTextField input;
@@ -53,8 +54,8 @@ public class FXMLDocumentController implements Initializable {
     
     private void gameOver() {
         Alert alert = new Alert(AlertType.CONFIRMATION); 
-            alert.setTitle("Game Over");
-            alert.setHeaderText("Time's out.");
+            alert.setTitle("Time's out");
+            alert.setHeaderText("Score: "+puntos.getPuntaje()+"\n"+"High Score: "+highScorePoints);
             alert.setContentText("Do you want to try again?");
             Optional<ButtonType> result = alert.showAndWait();
             if(!result.isPresent()) {
@@ -85,8 +86,10 @@ public class FXMLDocumentController implements Initializable {
             }
     }
     
-    private void temp(){
-        
+    private void obtenerHighScore(int puntos) throws RemoteException{
+        serv.compararPuntaje(puntos);
+        highScorePoints=serv.obtenerPuntaje();
+        highScore.setText(String.valueOf(highScorePoints));
     }
     
     private void temporizador() {
@@ -108,7 +111,6 @@ public class FXMLDocumentController implements Initializable {
         timeline.playFromStart();
         time.progressProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             double progress = newValue == null ? 0 : newValue.doubleValue();
-            System.out.println(observable.getValue());
             if (progress < 0.4) {
                 time.setStyle("-fx-accent: green;");
             } else if (progress < 0.6) {
@@ -124,27 +126,29 @@ public class FXMLDocumentController implements Initializable {
     private void obtenerDiccionario() throws RemoteException, NotBoundException {
         Registry registry;
         registry = LocateRegistry.getRegistry("localhost", Registry.REGISTRY_PORT);
-        Score jaja = (Score) registry.lookup("verbs");
-        diccionario = jaja.obtenerDiccionario();
+        serv = (Score) registry.lookup("verbs");
+        diccionario = serv.obtenerDiccionario();
+        highScorePoints=serv.obtenerPuntaje();
+        highScore.setText(String.valueOf(highScorePoints));
     }
     
     @FXML
-    private void skip(ActionEvent event) {
+    private void skip(ActionEvent event) throws RemoteException {
         puntos.decrementarPuntaje();
+        lastVerb.setText("Last: " +verbo.getName() +" - " +verbo.getMeaning());
         modo = random.nextInt(2);
         if (modo == 0) {
-            lastVerb.setText("Last meaning: " + verbo.getMeaning());
             verbo = diccionario.obtenerVerbo();
             verbMeaning.setText(verbo.getMeaning());
             verbName.setText("?");
         }
         else{
-            lastVerb.setText("Last verb: " + verbo.getName());
             verbo = diccionario.obtenerVerbo();
             verbName.setText(verbo.getName());
             verbMeaning.setText("?");
         }
         score.setText(String.valueOf(puntos.getPuntaje()));
+        obtenerHighScore(puntos.getPuntaje());
         Platform.runLater(() -> {
             input.clear();
         });
@@ -174,6 +178,7 @@ public class FXMLDocumentController implements Initializable {
                     verbMeaning.setText("?");
                 }
                 score.setText(String.valueOf(puntos.getPuntaje()));
+                obtenerHighScore(puntos.getPuntaje());
                 Platform.runLater(() -> {
                     input.clear();
                 });
@@ -209,6 +214,7 @@ public class FXMLDocumentController implements Initializable {
         input.textProperty().addListener((ObservableValue<? extends String> observableValue, String s, String s2) -> {
             if (modo == 0) {
                 if (observableValue.getValue().equals(verbo.getName())) {
+                    lastVerb.setText("Last: " +verbo.getName() +" - " +verbo.getMeaning());
                     puntos.incrementarPuntaje();
                     modo=random.nextInt(2);
                     if (modo == 0) {
@@ -222,6 +228,11 @@ public class FXMLDocumentController implements Initializable {
                         verbMeaning.setText("?");
                     }
                     score.setText(String.valueOf(puntos.getPuntaje()));
+                    try {
+                        obtenerHighScore(puntos.getPuntaje());
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     Platform.runLater(() -> {
                         input.clear();
                     });
@@ -230,6 +241,7 @@ public class FXMLDocumentController implements Initializable {
             else{
                 if (observableValue.getValue().equals(verbo.getMeaning())) {
                     puntos.incrementarPuntaje();
+                    lastVerb.setText("Last: " +verbo.getName() +" - " +verbo.getMeaning());
                     modo = random.nextInt(2);
                     if (modo == 0) {
                         verbo = diccionario.obtenerVerbo();
@@ -242,6 +254,11 @@ public class FXMLDocumentController implements Initializable {
                         verbMeaning.setText("?");
                     }
                     score.setText(String.valueOf(puntos.getPuntaje()));
+                    try {
+                        obtenerHighScore(puntos.getPuntaje());
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     Platform.runLater(() -> {
                         input.clear();
                     });

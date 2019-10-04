@@ -13,9 +13,8 @@ import rmiserver.Diccionario;
  * @author Johan Del Valle
  */
 public interface Score extends Remote {
-    public void incrementarPuntaje() throws RemoteException;
 
-    public void decrementarPuntaje() throws RemoteException;
+    public void compararPuntaje(int puntos) throws RemoteException;
 
     public int obtenerPuntaje() throws RemoteException;
     

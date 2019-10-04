@@ -13,24 +13,27 @@ import java.util.logging.Logger;
  *
  * @author Arturo Lessieur
  */
-public class Decrementador extends Thread{
-    private final Semaphore mutex;
-    private final Puntaje puntaje;
+public class Comparador extends Thread{
+     private final Semaphore mutex;
+     private final Puntaje puntaje;
+     private final int puntos;
     
-    public Decrementador(Semaphore mutex, Puntaje puntaje){
+    public Comparador(Semaphore mutex, Puntaje puntaje, int puntos){
         this.mutex=mutex;
         this.puntaje=puntaje;
-        
+        this.puntos=puntos;
     }
     
     @Override
     public void run(){
          try {
              mutex.acquire();
-             puntaje.decrementarPuntaje();
+             puntaje.compararPuntaje(puntos);
              mutex.release();
          } catch (InterruptedException ex) {
-             Logger.getLogger(Decrementador.class.getName()).log(Level.SEVERE, null, ex);
+             Logger.getLogger(Comparador.class.getName()).log(Level.SEVERE, null, ex);
          }
+        
     }
+    
 }

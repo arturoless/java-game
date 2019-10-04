@@ -19,8 +19,7 @@ public class Server implements Score {
     private static final long serialVersionUID = 1L;
     Semaphore mutex = new Semaphore(1);
     Puntaje puntaje = new Puntaje();
-    Incrementador incrementador = new Incrementador(mutex, puntaje);
-    Decrementador decrementador = new Decrementador(mutex, puntaje);
+   
     
     Diccionario diccionario;
 
@@ -37,26 +36,16 @@ public class Server implements Score {
     }
 
     @Override
-    public void incrementarPuntaje() throws RemoteException {
-        incrementador.run();
+    public void compararPuntaje(int puntos) throws RemoteException {
+        Comparador comparador = new Comparador(mutex, puntaje, puntos);
+        comparador.run();
         try {
-            incrementador.join();
+            comparador.join();
         } catch (InterruptedException ex) {
             Logger.getLogger(RMIServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        incrementador.interrupt();
     }
 
-    @Override
-    public void decrementarPuntaje() throws RemoteException {
-        decrementador.run();
-        try {
-            incrementador.join();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(RMIServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        decrementador.interrupt();
-    }
 
     @Override
     public int obtenerPuntaje() throws RemoteException {

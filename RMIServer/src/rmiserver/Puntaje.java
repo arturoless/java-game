@@ -5,19 +5,20 @@
  */
 package rmiserver;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Arturo Lessieur
  */
-public class Puntaje {
+public class Puntaje implements Serializable {
+    private static final long serialVersionUID = 1160476516911661470L;
     private int puntaje = 0;
     
-    public void incrementarPuntaje(){
-        puntaje++;
-    }
-    
-    public void decrementarPuntaje(){
-        puntaje++;
+    public void compararPuntaje(int puntos){
+        if (puntos > puntaje){
+            puntaje=puntos;
+        };
     }
     
     public int getPuntaje(){
